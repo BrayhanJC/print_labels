@@ -42,8 +42,8 @@
 							<t t-if="not line.display_type">
 								<td><span t-field="line.name"/></td>
 								<td class="text-right">
-									<span t-field="line.product_id.label_width"/> *
-									<span t-field="line.product_id.label_long"/>
+									<span t-field="line.product_id.label_width"/> mm *
+									<span t-field="line.product_id.label_long"/> mm
 								</td>
 								<td class="text-right">
 									<span t-field="line.product_id.quantity_inks"/>

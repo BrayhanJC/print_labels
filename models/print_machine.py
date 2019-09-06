@@ -39,7 +39,7 @@ class PrintMachine(models.Model):
 	name = fields.Char(string="Print Machine", required=True)
 	preparation_time = fields.Float(string="Preparation Time (Hours)")
 	roller_width = fields.Float(string="Roller Width (Inches)")
-	print_speed = fields.Float(string="Print Speed (Inches/min)", readonly=True, store=True) 
+	print_speed = fields.Float(string="Print Speed (Inches/min)", store=True) 
 
 
 	_sql_constraints = [(u'print_machine_constraint_name', 'unique(name)', u'This printing machine already exists.')]
