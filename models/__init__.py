@@ -22,8 +22,7 @@
 #
 ##############################################################################
 
-from . import quoation_print_label
 from . import print_machine
-from . import quoation_print_label_line
 from . import type_paper
-from . import res_partner_inherit
+from . import product_template_inherit
+from . import sale_order_line_inherit

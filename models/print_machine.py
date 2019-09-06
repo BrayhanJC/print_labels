@@ -40,13 +40,7 @@ class PrintMachine(models.Model):
 	preparation_time = fields.Float(string="Preparation Time (Hours)")
 	roller_width = fields.Float(string="Roller Width (Inches)")
 	print_speed = fields.Float(string="Print Speed (Inches/min)", readonly=True, store=True) 
-	#inches_minutes = fields.Float(string="Inches/minutes")
 
-	@api.onchange('roller_width')
-	def onchange_roller_width(self):
-		if self.roller_width:
-			speed = self.roller_width * 1
-			self.print_speed = speed
 
 	_sql_constraints = [(u'print_machine_constraint_name', 'unique(name)', u'This printing machine already exists.')]
 

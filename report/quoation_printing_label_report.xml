@@ -1,116 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<data>
-		<template id="printing_label">
-			<t t-call="web.external_layout">
-				<t t-set="o" t-value="o.with_context(lang=lang)" />
-				<t t-set="address">
-					<address t-field="o.partner_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
-					<div t-if="o.partner_id.vat" class="mt16"/> 
-				</t>
-					<br/>
-					<br/>
-					<br/>
-					<br/>
-				<div class="page">
-					<h2>
 
-						<span>Cotización Impresión Etiquetas</span>
-						<span t-field="o.name"/>
-					</h2>
+	<template id="report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
 
-					<br/>
-					<br/>
-					<br/>
-					<br/>
 
-					<table  class="table table-striped" name="stock_quantity_history_table">
-						<thead>
-							<tr>
-								<t t-set="colspan" t-value="6"/>
-								<th class="text-center"><span>Cantidad Tintas</span></th>
-								<th class="text-center"><span>Ancho Etiqueta</span></th>
-								<th class="text-center"><span>Largo Etiqueta</span></th>
-								<th class="text-center"><span>Cantidad Etiquetas</span></th>
-								<th class="text-center"><span>Total</span></th>
+
+		<xpath expr="//div[@class='page']/table[@class='table table-sm o_main_table']" position="replace">
+
+			<table class="table table-sm table-striped">
+				<thead>
+					<tr>
+						<!-- TODO: remove in master -->
+						<t t-set="colspan" t-value="5"/>
+						<th class="text-left">Description</th>
+						<th class="text-right">Size Label</th>
+						<th class="text-right">Quantity Inks</th>
+						<th class="text-right">Unit Price</th>
+						<th t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">
+							<span>Disc.(%)</span>
+							<!-- TODO: remove in master -->
+							<t t-set="colspan" t-value="colspan+1"/>
+						</th>
+						<th class="text-right">Taxes</th>
+						<th class="text-right">Total Cost</th>
+						<th class="text-right">
+							<t groups="account.group_show_line_subtotals_tax_excluded">Amount</t>
+							<t groups="account.group_show_line_subtotals_tax_included">Total Price</t>
+						</th>
+					</tr>
+				</thead>
+				<tbody class="sale_tbody">
+
+					<t t-set="current_subtotal" t-value="0"/>
+
+					<t t-foreach="doc.order_line" t-as="line">
+
+						<t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+						<t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+
+						<tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+							<t t-if="not line.display_type">
+								<td><span t-field="line.name"/></td>
+								<td class="text-right">
+									<span t-field="line.product_id.label_width"/> *
+									<span t-field="line.product_id.label_long"/>
+								</td>
+								<td class="text-right">
+									<span t-field="line.product_id.quantity_inks"/>
+								</td>
+								<td class="text-right">
+									<span t-field="line.price_unit"/>
+								</td>
+								<td t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">
+									<span t-field="line.discount"/>
+								</td>
+								<td class="text-right">
+									<span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/>
+								</td>
+								<td class="text-right">
+									<span t-field="line.total_cost"/>
+								</td>
+								<td class="text-right o_price_total">
+									<span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+									<span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+								</td>
+							</t>
+						</tr>
+
+						<t t-if="current_section and (line_last or doc.order_line[line_index+1].display_type == 'line_section')">
+							<tr class="is-subtotal text-right">
+								<td colspan="99">
+									<strong class="mr16">Subtotal</strong>
+									<span
+										t-esc="current_subtotal"
+										t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'
+									/>
+								</td>
 							</tr>
-						</thead>
-						<tbody >
-		
-							<t t-foreach="o.print_label_line_ids" t-as="line">
-								
-								<tr>
-									<td class="text-right">
-										<span t-esc="line.quantity_inks"/>
-									</td>
-
-									<td class="text-right">
-										<span t-esc="line.label_width"/>
-									</td>
-
-									<td class="text-right">
-										<span t-esc="line.label_long"/>
-									</td>
-
-									<td class="text-right">
-										<span t-esc="line.quantity_labels"/>
-									</td>
-
-									<td class="text-right">
-										<span t-esc="line.total"/>
-									</td>
-
-								</tr>
-							
-							</t>		
-
-						</tbody>
-					</table> 
+						</t>
+					</t>
+				</tbody>
+			</table>
 
 
-					<div class="clearfix">
-						<div id="total" class="row">
-							<div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
-								<table class="table table-sm">
-
-									<tr class="border-black o_total">
-										<td><strong>Total</strong></td>
-										<td class="text-right">
-											<span t-field="o.total"/>
-										</td>
-									</tr>
-								</table>
-							</div>
-						</div>
-					</div>
-
-				</div>
-
-			</t>
-		</template>
+		</xpath>
 
 
 
-		<template id="report_printing_label">
-			<t t-call="web.html_container">
-				<t t-foreach="docs" t-as="o">
-					<t t-set="lang" />
-					<t t-call="print_labels.printing_label" t-lang="lang"/>
-				</t>
-			</t>
-		</template>
 
 
-		<report
-				id="print_quoation_print_label"
-				model="quoation.print_label"
-				string="Reporte de Inventario"
-				report_type="qweb-pdf"
-				name="print_labels.report_printing_label"
-				file="print_labels.report_printing_label"
-				menu="False"
-		/>
+
+	</template>
 
 
-	</data>
+
+
 </odoo>

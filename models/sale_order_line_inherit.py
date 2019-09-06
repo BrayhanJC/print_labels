@@ -30,35 +30,26 @@ _logger = logging.getLogger(__name__)
 from odoo import modules
 from odoo.addons import decimal_precision as dp
 
-class QuoationPrintLabel(models.Model):
+class SaleOrderInherit(models.Model):
 
-	_name = "quoation.print_label"
-	_description = 'Label Printing'
-	_order = 'name'
+	_inherit = 'sale.order.line'
 
-	name = fields.Char(string="Quoation")
-	partner_id = fields.Many2one('res.partner', string="Partner")
-	print_label_line_ids = fields.One2many('quoation.print_label_line', 'print_label_id', string="Print Labels")
-	total = fields.Float(string="Total")
+	@api.multi
+	@api.depends('product_id', 'product_uom_qty')
+	def _compute_total_cost(self):
 
-	@api.onchange('print_label_line_ids')
-	def onchange_print_label_line_ids(self):
-		if self.print_label_line_ids:
-			total = 0
-			for x in self.print_label_line_ids:
-				total += x.total
+		total_cost = 0
+		for x in self:
+			total_cost = x.product_id.standard_price * x.product_uom_qty
+
+			x.total_cost = total_cost
 
 
-			self.total = total 
-
-	@api.model
-	def create(self, vals):
-		_logger.info('sdfsfds')
-		#if vals.get('name'):
-		vals['name'] = self.env['ir.sequence'].next_by_code('quoation.print_label')
-		res = super(QuoationPrintLabel, self).create(vals)
-		return res
-		
+	total_cost = fields.Monetary(compute='_compute_total_cost', string='Total Cost', store=True)
+	label_width = fields.Float(string= "Label Width (mm)", related="product_id.label_width")
+	label_long = fields.Float(string= "Label Long (mm)", related="product_id.label_long")
+	quantity_inks = fields.Integer(string= "Quantity Inks", related="product_id.quantity_inks")
 
 
-QuoationPrintLabel()
+
+SaleOrderInherit()

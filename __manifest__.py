@@ -39,19 +39,18 @@
 	Módulo test para pragmatic
 
 	""",
-	'depends': [ 'base'],
+	'depends': [ 'base', 'product', 'sale'],
 
 	'data': [
 	
-		'report/quoation_printing_label_report.xml',
 		'security/ir.model.access.csv',
-		'views/quoation_print_label_line_view.xml',
-		'views/quoation_print_label_view.xml',
+
+		'views/product_template_inherit_view.xml',
+		'views/sale_order_inherit_view.xml',
 		'views/type_paper_view.xml',
 		'views/print_machine_view.xml',
-		'views/menu.xml',
-		'data/data_sequence.xml',
-		'views/res_partner_inherit_view.xml'
+		'report/quoation_printing_label_report.xml'
+
 
 	],
 
