@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+				<!-- Extending the Partner view -->
+				<record model="ir.ui.view" id="print_label_res_partner_inherit">
+						<field name="name">print.labelres.partner.inherit</field>
+						<field name="inherit_id" ref="base.view_partner_form"/>
+						<field name="model">res.partner</field>
+						<field name="arch" type="xml">
+
+							
+							<xpath expr="//sheet/group/group[2]//field[3]" position="before">
+								<field name="value_hour"/>
+							</xpath>
+
+						</field>
+
+				</record>
+
+
+
+</odoo>

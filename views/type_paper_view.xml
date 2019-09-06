@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="type_paper_view_form" model="ir.ui.view">
+		<field name="name">type.paper.form</field>
+		<field name="model">type.paper</field>
+		<field name="arch" type="xml">
+			<form string="Type Paper">
+
+				<group col='4'>
+					<field name="name"/>
+					<field name="cost_paper"/>
+				</group>
+
+			</form>
+		</field>
+	</record>
+		
+	<record id="type_paper_view_tree" model="ir.ui.view">
+		<field name="name">type.paper.tree</field>
+		<field name="model">type.paper</field>
+		<field name="arch" type="xml">
+			<tree string="Type Paper">
+				<field name="name"/>
+				<field name="cost_paper"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="type_paper_form_action" model="ir.actions.act_window">
+		<field name="name">Type Paper</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">type.paper</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="help" type="html">
+		  <p class="o_view_nocontent_smiling_face">
+			Create a new Label Type Paper
+		  </p>
+		</field>
+	</record>
+
+
+</odoo>

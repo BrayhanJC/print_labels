@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="quoation_print_label_line_view_form" model="ir.ui.view">
+		<field name="name">quoation.print_label_line.form</field>
+		<field name="model">quoation.print_label_line</field>
+		<field name="arch" type="xml">
+			<form string="Label Printing">
+
+
+				<div class="oe_title">
+					<group>
+						<h3>
+							<label for="partner_id" string="Operador" />
+							<field name="partner_id" default_focus="1" />
+						</h3>
+					</group>
+
+				</div>
+
+					
+				<group col='4'>
+					<field name="quantity_inks"/>
+					<field name="type_print"/>
+				</group>
+
+				<group col='4'>
+					<field name="label_width"/>
+					<field name="label_long"/>
+				</group>
+
+				<group col='4'>
+					<field name="type_paper_id"/>
+					<field name="print_machine_id"/>
+				</group>
+
+				<group col='4'>
+					<field name="quantity_labels"/>
+					<field name="waste_percentage"/>					
+				</group>
+
+				<group class="oe_subtotal_footer oe_right" colspan="2" name="total">
+
+					<div class="oe_subtotal_footer_separator oe_inline o_td_label">
+						<label for="total"/>
+					</div>
+					<field name="total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" />
+				</group>
+			</form>
+		</field>
+	</record>
+		
+	<record id="quoation_print_label_line_view_tree" model="ir.ui.view">
+		<field name="name">quoation.print_label_line.tree</field>
+		<field name="model">quoation.print_label_line</field>
+		<field name="arch" type="xml">
+			<tree string="Label Printing">
+				<field name="quantity_labels"/>
+				<field name="quantity_inks"/>
+				<field name="type_print"/>
+				<field name="label_width"/>
+				<field name="label_long"/>
+				<field name="type_paper_id"/>
+				<field name="print_machine_id"/>
+				<field name="waste_percentage"/>
+				<field name="total"/>
+			</tree>
+		</field>
+	</record>
+
+
+
+
+</odoo>

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<odoo>
+	
+		<record id="limit_credit_partner_seq" model="ir.sequence">
+			<field name="name">N° of Quoation</field>
+			<field name="code">quoation.print_label</field>
+			<field name="prefix">COT-</field>
+			<field name="padding">4</field>
+			<field name="active">TRUE</field>
+			<field eval="1" name="number_next"/>
+			<field eval="1" name="number_increment"/>
+			<field name="implementation">standard</field>
+		</record>
+
+<!--
+		#@api.onchange('type_print')
+	def calculate_area(self):
+		if self.type_print:
+			if self.type_print == 'digital':
+
+				area = ((label_long * label_width) * self.product_uom_qty * self.type_paper_id.cost_paper) + (tiempo de impresión * costo  por hora del operador)
+
+			if self.type_print == 'flexographic':
+
+				area = : (((label_long * label_width) + self.waste_percentage) * self.product_uom_qty * self.type_paper_id.cost_paper) + ((self.print_machine_id.preparation_time * self.quantity_inks) * costo por hora del operador) + (tiempo de impresión * costo por hora del operador)
+
+
+
+
+
+				
+-->
+
+</odoo>

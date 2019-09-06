@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<template id="printing_label">
+			<t t-call="web.external_layout">
+				<t t-set="o" t-value="o.with_context(lang=lang)" />
+				<t t-set="address">
+					<address t-field="o.partner_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+					<div t-if="o.partner_id.vat" class="mt16"/> 
+				</t>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+				<div class="page">
+					<h2>
+
+						<span>Cotización Impresión Etiquetas</span>
+						<span t-field="o.name"/>
+					</h2>
+
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+
+					<table  class="table table-striped" name="stock_quantity_history_table">
+						<thead>
+							<tr>
+								<t t-set="colspan" t-value="6"/>
+								<th class="text-center"><span>Cantidad Tintas</span></th>
+								<th class="text-center"><span>Ancho Etiqueta</span></th>
+								<th class="text-center"><span>Largo Etiqueta</span></th>
+								<th class="text-center"><span>Cantidad Etiquetas</span></th>
+								<th class="text-center"><span>Total</span></th>
+							</tr>
+						</thead>
+						<tbody >
+		
+							<t t-foreach="o.print_label_line_ids" t-as="line">
+								
+								<tr>
+									<td class="text-right">
+										<span t-esc="line.quantity_inks"/>
+									</td>
+
+									<td class="text-right">
+										<span t-esc="line.label_width"/>
+									</td>
+
+									<td class="text-right">
+										<span t-esc="line.label_long"/>
+									</td>
+
+									<td class="text-right">
+										<span t-esc="line.quantity_labels"/>
+									</td>
+
+									<td class="text-right">
+										<span t-esc="line.total"/>
+									</td>
+
+								</tr>
+							
+							</t>		
+
+						</tbody>
+					</table> 
+
+
+					<div class="clearfix">
+						<div id="total" class="row">
+							<div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+								<table class="table table-sm">
+
+									<tr class="border-black o_total">
+										<td><strong>Total</strong></td>
+										<td class="text-right">
+											<span t-field="o.total"/>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</t>
+		</template>
+
+
+
+		<template id="report_printing_label">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-set="lang" />
+					<t t-call="print_labels.printing_label" t-lang="lang"/>
+				</t>
+			</t>
+		</template>
+
+
+		<report
+				id="print_quoation_print_label"
+				model="quoation.print_label"
+				string="Reporte de Inventario"
+				report_type="qweb-pdf"
+				name="print_labels.report_printing_label"
+				file="print_labels.report_printing_label"
+				menu="False"
+		/>
+
+
+	</data>
+</odoo>

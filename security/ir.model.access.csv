@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_print_machine,print.machine,model_print_machine,,1,1,1,1
+access_quoation_print_label,quoation.print_label,model_quoation_print_label,,1,1,1,1
+access_quoation_print_label_line,quoation.print_label_line,model_quoation_print_label_line,,1,1,1,1
+access_type_paper,type.paper,model_type_paper,,1,1,1,1

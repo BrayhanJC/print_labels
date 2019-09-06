@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+		<menuitem
+			id="printing_labels_root"
+			name="Printing Labels"
+			sequence="3"/>
+
+		
+		<menuitem
+			id="printing_labels_menu"
+			name="Printing Labels"
+			parent="printing_labels_root"
+			sequence="1"/>
+
+			<menuitem
+				id="quoations_priting_label_menu"
+				name="Quoations Printing Labels"
+				parent="printing_labels_menu"
+				action="quoation_print_label_form_action"/>
+
+
+			<menuitem
+				id="type_paper_menu"
+				name="Type Paper"
+				parent="printing_labels_menu"
+				action="type_paper_form_action"/>
+
+			<menuitem
+				id="print_machine_menu"
+				name="Print Machine"
+				parent="printing_labels_menu"
+				action="print_machine_form_action"/>
+</odoo>
